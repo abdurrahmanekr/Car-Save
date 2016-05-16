@@ -1,0 +1,43 @@
+<ion-modal-view>
+	<ion-content class="padding">
+		<ion-list>
+			<div class="button-bar">
+				<button class="button button-block button-dark" ng-click="closeAddActivityModal();">Vazgeç</button>
+				<button class="button button-block button-balanced" ng-click="addActivity()">Kaydet</button>
+			</div>
+			<div class="">
+				<div class="row" style="border:1px solid #ccc; margin-bottom: 15px;">
+					<div class="col col-50">
+						<input type="date" ng-model="time.date">
+					</div>
+					<div class="col add-time">
+						<select ng-model="time.hour.selected" ng-options="h for h in time.hour.values"></select>
+					</div>
+					<div class="col add-time">
+						<select ng-model="time.minute.selected" ng-options="h for h in time.minute.values"></select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col item item-input">
+					    <input type="text" ng-model="addActivityData.name" placeholder="Etkinlik ne ? *" required>
+				  	</div>
+			  	</div>
+			  	<div class="row">
+				  	<div class="col item item-input">
+					    <textarea ng-model="addActivityData.description" placeholder="Açıklama" rows="5"></textarea>
+				  	</div>
+				</div>
+				<div class="row">
+				  	<div class="col item item-input">
+					    <input type="text" ng-model="addActivityData.car" placeholder="Araba ismi *" required>
+				  	</div>
+				</div>
+				<div class="row">
+				  	<div class="col item item-input">
+					    <input type="text" ng-model="addActivityData.price" placeholder="Alınan ücret *" required>
+				  	</div>
+				</div>
+		  	</div>
+		</ion-list>
+	</ion-content>
+</ion-modal-view>

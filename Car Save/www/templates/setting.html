@@ -1,0 +1,25 @@
+<ion-view>
+	<ion-header-bar class="bar bar-header bar-stable">
+	  	<h1 class="title">Ayarlar</h1>
+	</ion-header-bar>
+	<ion-content class="padding">
+		<ion-list>
+			<label class="item item-input">
+				<span class="input-label">Kullanıcı adı : </span>
+				<input type="text" ng-model="setUser.name">
+			</label>
+			<label class="item item-input">
+				<span class="input-label">Eski şifre : </span>
+				<input type="text" ng-model="setUser.password">
+			</label>
+			<label class="item item-input">
+				<span class="input-label">Yeni şifre : </span>
+				<input type="text" ng-model="setUser.newPassword">
+			</label>
+			<div class="button-bar">
+				<button class="button button-block button-dark" ng-click="setUser=	{name : '', password : '', newPassword : ''}">Temizle</button>
+				<button class="button button-block button-balanced" ng-click="updateSetting(setUser)">Kaydet</button>
+			</div>
+		</ion-list>
+	</ion-content>
+</ion-view>

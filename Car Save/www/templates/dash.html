@@ -1,0 +1,40 @@
+<ion-view view-title="Anasayfa">
+	<ion-header-bar class="bar bar-header bar-stable">
+	  	<h1 class="title">Takvim</h1>
+	</ion-header-bar>
+	<ion-content style="background: #E5E7EF">
+		<ion-list>
+			<onezone-datepicker datepicker-object="onezoneDatepicker">
+			</onezone-datepicker>
+			{{mesaj}}
+			<ion-item class="item item-remove-animate item-icon-left item-challange" ng-repeat="item in challange track by $index" ng-click="openActivity({{item.id}})">
+		      	<i class="icon ion-record" ng-class="item.statu=='1' ? 'balanced' : 'assertive'"></i>
+		      	<h2>{{item.name}} <span>{{item.date}}</span></h2>
+		      	<p>{{item.description}}</p>
+		        <ion-option-button class="button-assertive" ng-click="removeActivity({{item.id}})">
+		          Sil
+		        </ion-option-button>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>
+		
+
+<!--<div class="list" ng-repeat="car in cars track by $index">
+	<div class="item" ng-class="car.img_url[0] != '' ? 'item-avatar' : ''"  ng-click="yaz()">
+	  	<img ng-if="car.img_url[0] != ''" ng-src="{{car.img_url[0].uri}}">
+    	<h2>{{car.name}}</h2>
+	    <p>{{car.date}}</p>
+  	</div>
+
+  	<div class="item item-body">
+	    <p class="not-img"  ng-click="yaz()">
+	    	<b>{{car.content}}</b>
+	    </p>
+	    <img class="full-image" ng-repeat="img in car.img_url" ng-src="{{img.uri}}" ng-if="img != ''" ng-click="deneme()">
+	    <p>
+	      <a class="subdued"><b>{{car.price}} ₺</b></a>| 
+	      <a class="subdued">{{car.worker}}</a>
+	    </p>
+  	</div>
+</div>-->

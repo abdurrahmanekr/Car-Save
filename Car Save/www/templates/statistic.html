@@ -1,0 +1,108 @@
+<ion-modal-view>
+	<ion-header-bar class="bar bar-header bar-stable">
+	  	<h1 class="title">İstatislikler</h1>
+	</ion-header-bar>
+	<ion-content class="padding">
+		<ion-list class="statistic">
+			<div class="row">
+				<div class="col item item-divider">Tümü</div>
+			</div>
+			<div class="row">
+				<div class="col item item-text-wrap">
+					<div class="row">
+						<div class="col-50 statistic-top balanced">
+							{{priceAllTodo}}
+							<div class="">Toplam Kazanılan Para</div>
+						</div>
+						<div class="col-50 statistic-top balanced">
+							{{countAllTodo}}
+							<div class="">Toplam Yapılan Etkinlik</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col item item-divider">Son 1 Hafta</div>
+			</div>
+			<div class="row">
+			  	<div class="col item item-text-wrap">
+				  	<div class="row">
+					  	<div class="col-50 statistic-top royal">
+							{{weekPrice}}
+							<div class="">Kazanılan Para</div>
+						</div>
+						<div class="col-50 statistic-top royal">
+							{{week}}
+							<div class="">Yapılan Etkinlik</div>
+						</div>
+				  	</div>
+			  	</div>
+			</div>
+			<div class="row">
+				<div class="col item item-divider">Son 28 Gün</div>
+			</div>
+			<div class="row">
+			  	<div class="col item item-text-wrap">
+				  	<div class="row">
+					  	<div class="col-50 statistic-top assertive">
+							{{monthPrice}}
+							<div class="">Kazanılan Para</div>
+						</div>
+						<div class="col-50 statistic-top assertive">
+							{{month}}
+							<div class="">Yapılan Etkinlik</div>
+						</div>
+				  	</div>
+			  	</div>
+			</div>
+			<div class="row">
+				<div class="col item item-divider">Son 1 Yıl</div>
+			</div>
+			<div class="row">
+			  	<div class="col item item-text-wrap">
+				  	<div class="row">
+					  	<div class="col-50 statistic-top positive">
+							{{yearPrice}}
+							<div class="">Kazanılan Para</div>
+						</div>
+						<div class="col-50 statistic-top positive">
+							{{year}}
+							<div class="">Yapılan Etkinlik</div>
+						</div>
+				  	</div>
+			  	</div>
+			</div>
+
+			<!--<div class="row">
+				<div class="pace pace-active">
+					<div class="pace-progress green" style="width:{{ (thisSurveyApiDocs.peopleVote.E/toplam)*100  }}%">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="pace pace-active">
+					<div class="pace-progress light" style="width:{{ (thisSurveyApiDocs.peopleVote.D/toplam)*100 }}%">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="pace pace-active">
+					<div class="pace-progress blue" style="width:{{ (thisSurveyApiDocs.peopleVote.C/toplam)*100 }}%">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="pace pace-active">
+					<div class="pace-progress yellow" style="width:{{ (thisSurveyApiDocs.peopleVote.B/toplam)*100 }}%">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="pace pace-active">
+					<div class="pace-progress red" style="width:{{ (thisSurveyApiDocs.peopleVote.A/toplam)*100 }}%">
+					</div>
+				</div>
+			</div>-->
+		</ion-list>
+	</ion-content>
+</ion-modal-view>

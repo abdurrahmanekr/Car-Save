@@ -1,0 +1,37 @@
+<ion-modal-view>
+	<ion-header-bar class="bar bar-header bar-stable">
+	  	<h1 class="title">Kayıtlı Tüm Aktiviteler</h1>
+	</ion-header-bar>
+	<ion-content class="padding">
+		<ion-list class="statistic">
+			<div class="row">
+				<div class="col item item-text-wrap">
+					<div class="row">
+						<div class="col-50 statistic-top balanced">
+							{{activites}}
+							<div class="">Oluşturulmuş Tüm Aktiviteler</div>
+						</div>
+						<div class="col-50 statistic-top assertive">
+							{{deletedActivites}}
+							<div class="">Silinmiş Tüm Aktiviteler</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col item item-divider">Tümü</div>
+			<div class="col item item-input">
+				<input type="text" ng-model="search" placeholder="Arama Yapın...">
+			</div>
+
+					
+			<ion-item class="item item-remove-animate item-icon-left item-challange" ng-repeat="item in challange | filter:search track by $index" ng-click="openActivity({{item.id}})">
+		      	<i class="icon ion-record" ng-class="item.statu=='1' ? 'balanced' : 'assertive'"></i>
+		      	<h2>{{item.name}} <span>{{item.date}}</span></h2>
+		      	<p>{{item.description}}</p>
+		        <ion-option-button class="button-assertive" ng-click="removeActivity({{item.id}})" ng-if="item.statu=='1'">
+		          Sil
+		        </ion-option-button>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-modal-view>

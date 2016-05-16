@@ -1,0 +1,48 @@
+<ion-side-menus enable-menu-with-back-views="false">
+	<ion-side-menu-content>
+		<div class="tabs-striped tabs-icon-left tabs-background-royal" side="left">
+	      	<div class="tabs">
+		      	<a class="tab-item" href="#" menu-toggle="left">
+			        <i class="icon ion-navicon"></i>
+		      	</a>
+		      	<a class="tab-item" href="#/app/activities">
+			        <i class="icon ion-search"></i>
+		      	</a>
+		      	<a class="tab-item" href="#/app/dash">
+			        <i class="icon ion-fork-repo"></i>
+		      	</a>
+	      	</div>
+		</div>
+		<ion-nav-view></ion-nav-view>
+	</ion-side-menu-content>
+	<ion-side-menu side="left">
+		<ion-header-bar class="bar-dark">
+			<h1 class="title"><i class="ion-alert"></i> Hoşgeldiniz</h1>
+		</ion-header-bar>
+		<ion-content>
+			<ion-list>
+
+				<ion-item menu-close class="item-icon-left" href="#/app/dash">
+				<i class="icon ion-ios-home"></i>
+					Anasayfa
+				</ion-item>
+
+				<ion-item menu-close class="item-icon-left" href="#/app/activities">
+				<i class="icon ion-merge"></i>
+					Tüm etkinlikler
+					<span class="badge badge-balanced">{{countMenu}}</span>
+				</ion-item>
+
+				<ion-item menu-close class="item-icon-left" href="#/app/statistic">
+					<i class="icon ion-pie-graph"></i>
+					İstatistikler
+				</ion-item>
+			</ion-list>
+		</ion-content>
+		<div class="bar bar-footer bar-stable">
+		  	<div class="row col text-center">
+				Copyright &copy; 2016 - Kod Ofisi
+			</div>
+		</div>
+	</ion-side-menu>
+</ion-side-menus>
