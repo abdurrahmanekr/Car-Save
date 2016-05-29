@@ -1,6 +1,6 @@
 var app = angular.module('starter.controllers', []);
 
-app.controller('AppCtrl', function($timeout, $ionicModal, $scope, $ionicPlatform, $cordovaPrinter, ActivityServ, $cordovaSQLite, DateServ, $ionicPopup, PopupServ, LoadingSERV) {
+app.controller('AppCtrl', function($rootScope, $timeout, $ionicModal, $scope, $ionicPlatform, $cordovaPrinter, ActivityServ, $cordovaSQLite, DateServ, $ionicPopup, PopupServ, LoadingServ) {
   	$scope.challange = [];
 	$scope.openActivity = function (id) {
 		try
@@ -48,7 +48,7 @@ app.controller('AppCtrl', function($timeout, $ionicModal, $scope, $ionicPlatform
 			description : data.description,
 			car : data.car,
 			price : data.price,
-			date : new Date(data.date)
+			date : time
 		};
 		$scope.modalUp.show();
 	}
@@ -133,6 +133,8 @@ app.controller('AppCtrl', function($timeout, $ionicModal, $scope, $ionicPlatform
 			var data = ActivityServ.add($scope.addActivityData);
 			$scope.challange = data;
 			$scope.closeAddActivityModal();
+			$rootScope.getStatistic();
+			$rootScope.countAllTodo();
 		}
 	};
 	$scope.updateActivity = function() {
@@ -157,6 +159,8 @@ app.controller('AppCtrl', function($timeout, $ionicModal, $scope, $ionicPlatform
 				var data = ActivityServ.update($scope.addActivityData);
 				$scope.challange = data;
 				$scope.closeUpdateActivityModal();
+				$rootScope.getStatistic();
+				$rootScope.countAllTodo();
 			}
 		}
 		catch(error)
@@ -212,13 +216,13 @@ app.controller('AppCtrl', function($timeout, $ionicModal, $scope, $ionicPlatform
 	    }
 	};
 	$scope.getAllTodo = function () {
-		//LoadingSERV.show('Yükleniyor',true);
+		//LoadingServ.show('Yükleniyor',true);
 		ActivityServ.all($scope).then(function (res) {
   			$scope.challange = [];
   			
   			$timeout(function() {
   				$scope.challange = res;
-				LoadingSERV.hide();
+				LoadingServ.hide();
   			});
   			
   		});
@@ -235,14 +239,17 @@ app.controller('AppCtrl', function($timeout, $ionicModal, $scope, $ionicPlatform
 	});
 });
 
-app.controller('MenuCtrl', function($scope, StatisticSERV, $ionicPlatform) {
-	$scope.countMenu = 0;
+app.controller('MenuCtrl', function($scope, $rootScope, StatisticServ, $ionicPlatform) {
+	$rootScope.countMenu = 0;
+	$rootScope.countAllTodo = function () {
+		StatisticServ.countAllTodo($rootScope).then(function (res) {
+			$rootScope.countMenu = res;
+		});
+	};
 	$ionicPlatform.ready(function() {
 		try
 		{
-			StatisticSERV.countAllTodo($scope).then(function (res) {
-				$scope.countMenu = res;
-			});
+			$rootScope.countAllTodo();
 		}
 		catch(error)
 		{
@@ -251,7 +258,7 @@ app.controller('MenuCtrl', function($scope, StatisticSERV, $ionicPlatform) {
 	});
 });
 
-app.controller('StatisticCtrl', function($scope, LoadingSERV, StatisticSERV) {
+app.controller('StatisticCtrl', function($scope, $rootScope, LoadingServ, StatisticServ) {
 	$scope.countAllTodo = 0;
 	$scope.priceAllTodo = 0;
 	$scope.week = 0;
@@ -260,44 +267,47 @@ app.controller('StatisticCtrl', function($scope, LoadingSERV, StatisticSERV) {
 	$scope.monthPrice = 0;
 	$scope.year = 0;
 	$scope.yearPrice = 0;
-	try
-	{
-		StatisticSERV.countAllTodo($scope).then(function (res) {
-			$scope.countAllTodo = res;
-		});
+	$rootScope.getStatistic = function () {
+		try
+		{
+			StatisticServ.countAllTodo($scope).then(function (res) {
+				$scope.countAllTodo = res;
+			});
 
-		StatisticSERV.totalAllPrice($scope).then(function (res) {
-			$scope.priceAllTodo = res;
-		});
-		///hafta
-		StatisticSERV.countListTodo($scope, 7).then(function (res) {
-			$scope.week = res;
-		});
+			StatisticServ.totalAllPrice($scope).then(function (res) {
+				$scope.priceAllTodo = res;
+			});
+			///hafta
+			StatisticServ.countListTodo($scope, 7).then(function (res) {
+				$scope.week = res;
+			});
 
-		StatisticSERV.priceListTodo($scope, 7).then(function (res) {
-			$scope.weekPrice = res;
-		});
-		///ay
-		StatisticSERV.countListTodo($scope, 28).then(function (res) {
-			$scope.month = res;
-		});
+			StatisticServ.priceListTodo($scope, 7).then(function (res) {
+				$scope.weekPrice = res;
+			});
+			///ay
+			StatisticServ.countListTodo($scope, 28).then(function (res) {
+				$scope.month = res;
+			});
 
-		StatisticSERV.priceListTodo($scope, 28).then(function (res) {
-			$scope.monthPrice = res;
-		});
-		///yıl
-		StatisticSERV.countListTodo($scope, 365).then(function (res) {
-			$scope.year = res;
-		});
+			StatisticServ.priceListTodo($scope, 28).then(function (res) {
+				$scope.monthPrice = res;
+			});
+			///yıl
+			StatisticServ.countListTodo($scope, 365).then(function (res) {
+				$scope.year = res;
+			});
 
-		StatisticSERV.priceListTodo($scope, 365).then(function (res) {
-			$scope.yearPrice = res;
-		});
-	}
-	catch(error)
-	{
-		alert(error);
-	}
+			StatisticServ.priceListTodo($scope, 365).then(function (res) {
+				$scope.yearPrice = res;
+			});
+		}
+		catch(error)
+		{
+			alert(error);
+		}
+	};
+	$rootScope.getStatistic();
 });
 
 app.controller('SettingCtrl', function($scope) {
@@ -315,16 +325,16 @@ app.controller('SettingCtrl', function($scope) {
 	};
 });
 
-app.controller('ActivitiesCtrl', function($scope, ActivityServ, LoadingSERV, DateServ, $ionicModal, $timeout, PopupServ, StatisticSERV) {
+app.controller('ActivitiesCtrl', function($scope, ActivityServ, LoadingServ, DateServ, $ionicModal, $timeout, PopupServ, StatisticServ) {
 	$scope.challange = [];
 	$scope.activites = 0;
 	$scope.deletedActivites = 0;
 	try
 	{
-		StatisticSERV.countAllTodo($scope).then(function  (res) {
+		StatisticServ.countAllTodo($scope).then(function  (res) {
 			$scope.activites = res;
 		});
-		StatisticSERV.countDeletedActivity($scope).then(function  (res) {
+		StatisticServ.countDeletedActivity($scope).then(function  (res) {
 			$scope.deletedActivites = res;
 		});
 	}
@@ -453,13 +463,13 @@ app.controller('ActivitiesCtrl', function($scope, ActivityServ, LoadingSERV, Dat
 		}
 	};
 	$scope.getAllTodo = function () {
-		LoadingSERV.show('Yükleniyor',true);
+		LoadingServ.show('Yükleniyor',true);
 		ActivityServ.allDeleted($scope).then(function (res) {
   			$scope.challange = [];
   			
   			$timeout(function() {
   				$scope.challange = res;
-				LoadingSERV.hide();
+				LoadingServ.hide();
   			});
   			
   		});

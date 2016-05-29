@@ -1,7 +1,7 @@
+//burada ana değişkenler tanımlarnıyor db bağlantısı ve hataları göstermek için
 var app = angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'onezone-datepicker', 'starter.models']);
-var $db = null;	
+var $db = null; 
 var $error;
-var $eker;
 
 app.run(function($ionicPlatform, $cordovaSQLite) {
     $ionicPlatform.ready(function() {

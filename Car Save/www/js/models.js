@@ -167,17 +167,19 @@ app.factory("ActivityServ",function($cordovaSQLite) {
 
 app.factory("DateServ", function () {
 	var result = function(scope) {
-		var y = scope.time.date;
+		var y = new Date(scope.time.date);
 		var h = scope.time.hour.selected;
 		var m = scope.time.minute.selected;
-
+		h = parseInt(h/10) == 0 ? ("0" + String(h)) : h;
+		m = parseInt(m/10) == 0 ? ("0" + String(m)) : m;
 		//string parse
 		var year = y.getUTCFullYear();
-		var month = (y.getUTCMonth()+1);
+		var month = (y.getMonth()+1);
 		month = parseInt(month/10)==0 ? ("0" + String(month)) : month;
-		var day = y.getUTCDate()+1;
+		var day = y.getDate();
+		day = parseInt(day/10)==0 ? ("0" + String(day)) : day;
 		//string parse
-		
+
 		var date = year + "-" + month + "-" + day;
 		var datetime = h + ":" + m + ":00";
 		var parseDate = date + " " + datetime;
@@ -187,12 +189,15 @@ app.factory("DateServ", function () {
 	var parseDate = function  (date) {
 		//yıl ay gün
 		var year = date.getUTCFullYear();
-		var month = (date.getUTCMonth()+1);
+		var month = (date.getMonth()+1);
 		month = parseInt(month/10)==0 ? ("0" + String(month)) : month;
-		var day = date.getUTCDate()+1;
+		var day = date.getDate();
+		day = parseInt(day/10)==0 ? ("0" + String(day)) : day;
 		///saat dakika
 		var h = date.getHours();
+		h = parseInt(h/10) == 0 ? ("0" + String(h)) : h;
 		var m = date.getMinutes();
+		m = parseInt(m/10) == 0 ? ("0" + String(m)) : m;
 
 		var dateExist = year + "-" + month + "-" + day;
 		var datetimeExist = h + ":" + m + ":00";
@@ -296,7 +301,7 @@ app.factory("PopupServ",function ($ionicPopup) {
 	};
 });
 
-app.factory('LoadingSERV',function ($ionicLoading) {
+app.factory('LoadingServ',function ($ionicLoading) {
 	return{
 		show : function(e,w) {
 			w = (w == true) ? '<ion-spinner icon="lines"/>' : '';
@@ -317,7 +322,7 @@ app.factory('LoadingSERV',function ($ionicLoading) {
 	}
 })
 
-app.factory('StatisticSERV',function ($cordovaSQLite) {
+app.factory('StatisticServ',function ($cordovaSQLite, DateServ) {
 	///toplam oluşturulan aktivite sayısı
 	var countActivity = function ($scope) {
 		var sql = "SELECT COUNT(id) AS count FROM Todo";
@@ -364,25 +369,30 @@ app.factory('StatisticSERV',function ($cordovaSQLite) {
 		return promise;
 	};
 	///lite istatisliği
-	var countListTodo = function ($scope, plusTime) {
+	var countListTodo = function ($scope, pullTime) {
 		var now = new Date();
-		now.setDate(now.getDate()+plusTime);
+		var date = DateServ.parseDate(now);
+		now.setDate(now.getDate()-pullTime);
 		//yıl ay gün
-		var year = now.getUTCFullYear();
+		/*var year = now.getUTCFullYear();
 		var month = (now.getUTCMonth()+1);
 		month = parseInt(month/10)==0 ? ("0" + String(month)) : month;
 		var day = now.getUTCDate()+1;
+		day = parseInt(day/10) == 0 ? ("0" + String(day)) : day;
 		///saat dakika
 		var h = now.getHours();
+		h = parseInt(h/10) == 0 ? ("0" + String(h)) : h;
 		var m = now.getMinutes();
+		m = parseInt(m/10) == 0 ? ("0" + String(m)) : m;
 
 		var dateExist = year + "-" + month + "-" + day;
 		var datetimeExist = h + ":" + m + ":00";
-		var parseDate =  dateExist + " " + datetimeExist;
+		var parseDate =  dateExist + " " + datetimeExist;*/
 		
+		var parseDate = DateServ.parseDate(now);
 
 		var sql = "SELECT COUNT(id) AS count FROM Todo " + 
-				  "WHERE DATETIME(date) <= DATETIME('"+ parseDate +"')";
+				  "WHERE DATETIME(date) BETWEEN DATETIME('"+ parseDate +"') AND DATETIME('"+ date +"')";
 		var existValue = 0;
 		var promise;
 
@@ -391,30 +401,36 @@ app.factory('StatisticSERV',function ($cordovaSQLite) {
 		promise = $cordovaSQLite.execute($db, sql).then(function(res) {
 			existValue = res.rows.item(0).count;
 			return existValue;
+		}, function (res) {
+			return res;
 		});
 
 		return promise;
 	};
 	///liste parası
-	var priceListTodo = function ($scope, plusTime) {
+	var priceListTodo = function ($scope, pullTime) {
 		var now = new Date();
-		now.setDate(now.getDate()+plusTime);
+		var date = DateServ.parseDate(now);
+		now.setDate(now.getDate()-pullTime);
 		//yıl ay gün
-		var year = now.getUTCFullYear();
+		/*var year = now.getUTCFullYear();
 		var month = (now.getUTCMonth()+1);
 		month = parseInt(month/10)==0 ? ("0" + String(month)) : month;
 		var day = now.getUTCDate()+1;
+		day = parseInt(day/10) == 0 ? ("0" + String(day)) : day;
 		///saat dakika
 		var h = now.getHours();
+		h = parseInt(h/10) == 0 ? ("0" + String(h)) : h;
 		var m = now.getMinutes();
+		m = parseInt(m/10) == 0 ? ("0" + String(m)) : m;
 
 		var dateExist = year + "-" + month + "-" + day;
 		var datetimeExist = h + ":" + m + ":00";
-		var parseDate =  dateExist + " " + datetimeExist;
-		
+		var parseDate =  dateExist + " " + datetimeExist;*/
+		var parseDate = DateServ.parseDate(now);
 
 		var sql = "SELECT SUM(price) AS price FROM Todo " + 
-				  "WHERE DATETIME(date) <= DATETIME('"+ parseDate +"')";
+				  "WHERE DATETIME(date) BETWEEN DATETIME('"+ parseDate +"') AND DATETIME('"+ date +"')";
 		var existValue = 0;
 		var promise;
 
@@ -423,6 +439,8 @@ app.factory('StatisticSERV',function ($cordovaSQLite) {
 		promise = $cordovaSQLite.execute($db, sql).then(function(res) {
 			existValue = res.rows.item(0).price;
 			return existValue;
+		}, function (res) {
+			return res;
 		});
 
 		return promise;
