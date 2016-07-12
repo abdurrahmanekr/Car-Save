@@ -7,5 +7,3 @@ ekleme kodu : cordova plugin add https://github.com/litehelpers/Cordova-sqlite-s
 
 #Dikkat
 sqlite plugini tarayıcılar üzerinde çalışmaz
-
-Her hakkı saklıdır © - Kodofisi 2016
